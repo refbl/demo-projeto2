@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+  db:
+    image: mysql:5.7
+    container_name: server-mysql
+    volumes:
+      - ./:/home
+
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_DATABASE: projeto2
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root1234
+      MYSQL_ROOT_PASSWORD: root1234
+    networks:
+      - lognet
+
+networks:
+  lognet:
+    name: minha-rede
+    driver: bridge

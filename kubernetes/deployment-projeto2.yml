@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sistema-projeto2
+spec:
+  selector:
+    matchLabels:
+      name: sistema-api-pod
+  template:
+    metadata:
+      labels:
+        name: sistema-api-pod
+    spec:
+      containers:
+        - name: container-sistema-projeto2-cpu
+          image: rfbellani/projeto2:v1
+          resources:
+            requests:
+              cpu: 400m
+          ports:
+            - containerPort: 8089

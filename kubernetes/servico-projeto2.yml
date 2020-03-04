@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: servico-sistema-api
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 8089
+  selector:
+    name: sistema-api-pod

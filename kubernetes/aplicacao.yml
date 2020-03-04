@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: projeto2
+spec:
+  containers:
+    - name: aplicacao-projeto2
+      image: rfbellani/projeto2:v1
+      ports:
+        - containerPort: 8089

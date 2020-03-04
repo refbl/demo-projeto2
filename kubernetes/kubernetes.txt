@@ -1,0 +1,112 @@
+0. Subir o Minikube
+   minikube start
+
+   minikube stop
+
+1. Criar a Imagem do Projeto
+   docker build -t projeto1 .
+   docker tag projeto1 rfbellani/projeto1:v1
+   docker push rfbellani/projeto1:v1
+
+1.1 - Testar Imagem
+   No diretorio do mysql
+      docker-compose up
+
+   No diretorio raiz
+      docker-compose up
+
+2. Consultar Cluster
+    kubectl get pods
+    kubectl describe pods
+
+2.1. Deletar o cluster (caso exista)
+   kubectl delete -f sistema.yml
+   kubectl delete -f servico-projeto2.yml
+   kubectl delete -f deployment-projeto2.yml
+
+2.1.1 - Criacao de Pod NAO gerenciado para testes
+   kubectl create -f aplicacao.yml
+
+2.2. Criacao do Arquivo de Deployment - Pod gerenciado pelo Deployment
+
+   - kubectl create -f deployment-projeto2.yml
+
+   - kubectl create -f servico-projeto2.yml
+
+2.3. Obter o IP gerado no minikube
+    minikube service servico-sistema-api --url
+
+
+3. Consultar o minikube dashboard
+   minikube dashboard
+
+   Verificar Log em caso de Erro
+   kubectl logs projeto2
+
+
+4. Gerar Configuracoes de AutoScaling
+   4.1 - Incluir no deployment a limitacao do container -> ex. cpu: 400m
+
+   4.2 - Rodar o comando com as metricas
+       kubectl autoscale deployment sistema-projeto2 --cpu-percent=15 --min=1 --max=6
+
+   4.3 - Para verificar se Autoscale esta no ar
+       kubectl get hpa sistema-projeto2
+
+   4.4 - Agora eh necessario habilitar as metricas no minikube
+
+      a - listar os parametros habilitados no minikube
+         minikube addons list
+
+      b - Habilitar as metricas no Minikube
+         minikube addons enable metrics-server
+         minikube addons enable logviewer
+
+      c - Para reconhecer a metrica, precisa deletar e incluir novamente
+         kubectl delete hpa sistema-projeto2
+         kubectl autoscale deployment sistema-projeto2 --cpu-percent=45 --min=1 --max=6
+
+5 - Teste Stress
+   Ajustar o IP no arquivo stress.sh e roda-lo
+
+------------------------
+Principais comandos Minikube
+------------------------
+
+Para iniciar o Minikube:
+minikube start
+
+Para iniciar o Minikube com uma versão especifica do Kubernetes:
+minikube start --kubernetes-version="v1.16"
+
+Para acessar o dashboard do Kubernetes em execução:
+minikube dashboard
+
+Para ver o status do Minikube:
+minikube status
+
+Para parar o cluster:
+minikube stop
+
+Para se conectar pelo SSH com o nó master do cluster:
+minikube ssh
+
+E para remover o cluster:
+minikube delete
+
+E para remover todos os clusters e perfis:
+minikube delete --all
+
+------------------------------------------------
+
+Utilizando a ferramenta kompose para converter o docker-compose
+
+- kompose convert
+
+Kubernetes file "server-mysql-service.yaml" created
+INFO Kubernetes file "spring-server1-service.yaml" created
+INFO Kubernetes file "server-mysql-deployment.yaml" created
+INFO Kubernetes file "minha-rede-networkpolicy.yaml" created
+INFO Kubernetes file "spring-server1-deployment.yaml" created
+INFO Kubernetes file "minha-rede-networkpolicy.yaml" created
+

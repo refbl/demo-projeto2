@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+
+  spring-server1:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    image: projeto2
+    container_name: projeto2
+    ports:
+      - "8089:8089"
+    networks:
+      - lognet
+
+networks:
+  lognet:
+    name: minha-rede
+    driver: bridge
