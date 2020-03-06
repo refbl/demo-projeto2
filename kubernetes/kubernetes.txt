@@ -4,9 +4,9 @@
    minikube stop
 
 1. Criar a Imagem do Projeto
-   docker build -t projeto1 .
-   docker tag projeto1 rfbellani/projeto1:v1
-   docker push rfbellani/projeto1:v1
+   docker build -t projeto2 .
+   docker tag projeto2 rfbellani/projeto2:v1
+   docker push rfbellani/projeto2:v1
 
 1.1 - Testar Imagem
    No diretorio do mysql
